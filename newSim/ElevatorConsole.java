@@ -1,7 +1,8 @@
-// Copyright (c) 2003 Webware Consulting
 package newSim;
 import java.awt.*;
+
 import javax.swing.*;
+
 import java.awt.event.*;
 
 public class ElevatorConsole extends JFrame  implements WindowListener {
@@ -10,6 +11,7 @@ public class ElevatorConsole extends JFrame  implements WindowListener {
 	private int totalRiding;
 	private GridBagLayout theLayout;
 	private GridBagConstraints theConstraint;
+	private JButton floorButton[];
 	private JLabel totalPeopleLabel;
 	private JLabel inBuildingLabel;
 	private JLabel outsideBuildingLabel;
@@ -62,6 +64,10 @@ public class ElevatorConsole extends JFrame  implements WindowListener {
 		for (int i = 0; i < Building.MAX_FLOORS; i++) {
 			floorLabel[i] = new JLabel("" + (i+1) + ":U0D0",JLabel.CENTER);
 		}
+	 floorButton = new JButton[Building.MAX_FLOORS];
+		for (int i = 0; i < Building.MAX_FLOORS; i++) {
+			floorButton[i] = new JButton("" + (i+1) + ":U0D0");
+		}	
       inset = new Insets(0,2,0,2);
       theContainer = getContentPane();
       theContainer.setBackground(new Color(255,255,255));
@@ -89,7 +95,8 @@ public class ElevatorConsole extends JFrame  implements WindowListener {
 		}
       for (int i = Building.MAX_FLOORS - 1; i >= 0; i--) {
          constrain(new JLabel("         ",JLabel.CENTER), 0, -1);
-			constrain(floorLabel[i], 0 , -1);
+			//constrain(floorLabel[i], 0 , -1);
+         constrain(floorButton[i], 0 , -1);
 		}
 		constrain(new JLabel("Total"), 0, -1, 1, 1);
 		constrain(new JLabel("People"), 0, -1, 1, 1);
@@ -140,6 +147,15 @@ public class ElevatorConsole extends JFrame  implements WindowListener {
 		theLayout.setConstraints(lb, theConstraint);
 		theContainer.add(lb);
 	}
+   private void constrain( JButton lb, int x ,int y) {
+		theConstraint.gridheight = 1;
+		theConstraint.gridwidth = 1;
+		theConstraint.anchor = GridBagConstraints.NORTH;
+		theConstraint.gridx = x;
+		theConstraint.gridy = y;
+		theLayout.setConstraints(lb, theConstraint);
+		theContainer.add(lb);
+   }
    private void updateCounters(){
       inBuildingLabel.setText(String.valueOf(Simulator.MAX_PEOPLE - building.peopleOutside));
       outsideBuildingLabel.setText(String.valueOf(building.peopleOutside));
