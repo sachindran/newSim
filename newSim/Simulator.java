@@ -20,6 +20,8 @@ public class Simulator  {
       String source = null;
       if(args.length >0)
          source = args[0];
+      //InitialConsole iniConsole = new InitialConsole(source);
+      
       ElevatorConsole console = new ElevatorConsole(source);
       Vector people = new Vector();
       Building b = new Building();

@@ -11,7 +11,8 @@ public class ElevatorConsole extends JFrame  implements WindowListener {
 	private int totalRiding;
 	private GridBagLayout theLayout;
 	private GridBagConstraints theConstraint;
-	private JButton floorButton[];
+	private JButton floorUpButton[];
+	private JButton floorDownButton[];
 	private JLabel totalPeopleLabel;
 	private JLabel inBuildingLabel;
 	private JLabel outsideBuildingLabel;
@@ -47,6 +48,34 @@ public class ElevatorConsole extends JFrame  implements WindowListener {
    }
 	private void init() {
       addWindowListener(this);
+      JFrame frame = new JFrame();
+      String s;
+      int numE = 0,numF = 0;
+      while(true)
+      {
+      s = (String)JOptionPane.showInputDialog(frame, "Number of Elevators(max: 4)");
+      if(s.isEmpty())
+      {
+    	  continue;
+      }
+      numE = Integer.parseInt(s);
+      if(numE<=0||numE>=5)
+	  	{
+	  	continue;
+	  	}
+      s = (String)JOptionPane.showInputDialog(frame, "Number of Floors(max: 12)");
+      if(s.isEmpty())
+      {
+    	  continue;
+      }
+      numF = Integer.parseInt(s);
+      if((numE>0&&numE<5)&&(numF>0&&numF<13))
+      	{
+    	  break;
+      	}
+      }
+      Building.MAX_ELEVATORS = numE;
+      Building.MAX_FLOORS = numF;
       elevatorLocations = new int[Building.MAX_ELEVATORS];
       uCableGrid = new JLabel[Building.MAX_FLOORS][Building.MAX_FLOORS];
       lCableGrid = new JLabel[Building.MAX_FLOORS][Building.MAX_FLOORS];
@@ -61,13 +90,16 @@ public class ElevatorConsole extends JFrame  implements WindowListener {
          }
       }
       floorLabel = new JLabel[Building.MAX_FLOORS];
-		for (int i = 0; i < Building.MAX_FLOORS; i++) {
-			floorLabel[i] = new JLabel("" + (i+1) + ":U0D0",JLabel.CENTER);
-		}
-	 floorButton = new JButton[Building.MAX_FLOORS];
-		for (int i = 0; i < Building.MAX_FLOORS; i++) {
-			floorButton[i] = new JButton("" + (i+1) + ":U0D0");
-		}	
+    		for (int i = 0; i < Building.MAX_FLOORS; i++) {
+    			floorLabel[i] = new JLabel("Floor" + (i+1),JLabel.CENTER);
+    		}
+    	 floorUpButton = new JButton[Building.MAX_FLOORS];
+    	 floorDownButton = new JButton[Building.MAX_FLOORS];
+    		for (int i = 0; i < Building.MAX_FLOORS; i++) {
+    			floorUpButton[i] = new JButton("UP");
+    			floorDownButton[i] = new JButton("DW");
+    		}	
+        	
       inset = new Insets(0,2,0,2);
       theContainer = getContentPane();
       theContainer.setBackground(new Color(255,255,255));
@@ -95,8 +127,9 @@ public class ElevatorConsole extends JFrame  implements WindowListener {
 		}
       for (int i = Building.MAX_FLOORS - 1; i >= 0; i--) {
          constrain(new JLabel("         ",JLabel.CENTER), 0, -1);
-			//constrain(floorLabel[i], 0 , -1);
-         constrain(floorButton[i], 0 , -1);
+		 constrain(floorLabel[i], 0 , -1);
+         constrain(floorUpButton[i], 0 , -1);
+         constrain(floorDownButton[i], 0 , -1);
 		}
 		constrain(new JLabel("Total"), 0, -1, 1, 1);
 		constrain(new JLabel("People"), 0, -1, 1, 1);

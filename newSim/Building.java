@@ -1,8 +1,8 @@
 package newSim;
 import java.util.*;
 public class Building {
-   public static final int MAX_FLOORS = 12;
-   public static final int MAX_ELEVATORS = 4;
+   public static int MAX_FLOORS = 12;
+   public static int MAX_ELEVATORS = 4;
    public ElevatorController elevatorController;
    public  volatile int peopleTakingStairs;
    public volatile int peopleOutside = Simulator.MAX_PEOPLE;
